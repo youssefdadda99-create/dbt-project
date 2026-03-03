@@ -1,28 +1,28 @@
-name:
+name: test gcp connection
+
 on:
-  worflow_dispatch
+  workflow_dispatch:
+
 jobs:
   get-secret:
     runs-on: ubuntu-latest
     permissions:
-      contents: 'read'
-      id_token: 'write'
-  
+      contents: read
+      id-token: write
+
     steps:
-      - uses : 'actions/checkout@v3'
+      - uses: actions/checkout@v4
 
-      - id: 'auth'
-        name: 'Authenticate to GitHub Container Registry'
-        uses: google-github-actions/auth@v0.4.0
+      - id: auth
+        name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v2
         with:
-          token_format: 'access_token'
-          workload_identity_provider: 'projects/240848517511/locations/global/workloadIdentityPools/gitact/providers/my-provider'
-          service_account: 'git-actions@production-pipeline-488413.iam.gserviceaccount.com'
+          workload_identity_provider: projects/240848517511/locations/global/workloadIdentityPools/gitact/providers/my-provider
+          service_account: git-actions@production-pipeline-488413.iam.gserviceaccount.com
 
-      - name: 'Set up Cloud SDK'
-        uses: google-github-actions/setup-gcloud@v1
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@v2
 
-      - id: 'gcloud'
-        name: 'gcloud'
-        run: | -
-          gcloud secrets versions access "latest" --sercret "my-secret"
+      - name: Access secret
+        run: |
+          gcloud secrets versions access latest --secret="my-secret"
