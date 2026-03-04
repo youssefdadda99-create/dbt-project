@@ -1,0 +1,13 @@
+dbt_k8_demo:
+  outputs:
+    default:
+      type: bigquery
+      dataset: dbt_k8_demo
+      fixed_retries: 1
+      location: us-central1
+      method: oauth
+      priority: interactive
+      project: production-pipeline-488413
+      threads: 5
+      timeout_seconds: 300
+      impersonate_service_account: dbt-user@production-pipeline-488413.iam.gserviceaccount.com
